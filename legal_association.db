@@ -1,0 +1,27 @@
+import sqlite3
+
+def init_database():
+    """สร้างฐานข้อมูลและตารางสำหรับจัดเก็บคดีความ"""
+    # เชื่อมต่อกับไฟล์ฐานข้อมูล (หากไม่มีไฟล์นี้ มันจะสร้างให้ใหม่โดยอัตโนมัติ)
+    conn = sqlite3.connect('legal_association.db')
+    cursor = conn.cursor()
+
+    # สร้างตาราง cases เพื่อจัดเก็บข้อมูลคดี
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS cases (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+            citizen_name TEXT NOT NULL,
+            complaint_details TEXT NOT NULL,
+            status TEXT DEFAULT 'รับเรื่องแล้ว',
+            assigned_lawyer TEXT
+        )
+    ''')
+    
+    conn.commit()
+    conn.close()
+    print("ระบบฐานข้อมูลถูกสร้างเรียบร้อยแล้วค๊า!")
+
+# เรียกใช้งานฟังก์ชัน
+if __name__ == "__main__":
+    init_database()
